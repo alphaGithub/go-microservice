@@ -9,7 +9,7 @@ import (
 )
 
 func registerEventsRoutes(events *gin.RouterGroup) {
-	events.GET("/list", core.ValidateRequest(validators.GetEventsRequestQuery), func(context *gin.Context) {
+	events.GET("/", core.ValidateRequest(&validators.GetEventsRequestQuery{}), func(context *gin.Context) {
 		context.JSON(http.StatusOK, gin.H{
 			"message": "events list!",
 			"success": "true",
