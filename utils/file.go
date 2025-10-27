@@ -1,10 +1,13 @@
 package utils
 
-// func ReadFromFile(fileName string) {
-// 	content, err := os.ReadFile(fileName)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	log.Println("File opened successfully:", fileName, fileContent)
+import (
+	"os"
+)
 
-// }
+func ReadFromFile(fileName string) ([]byte, error) {
+	content, err := os.ReadFile(fileName)
+	if err != nil {
+		return nil, err
+	}
+	return content, nil
+}
