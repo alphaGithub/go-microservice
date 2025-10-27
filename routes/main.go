@@ -4,17 +4,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hello/controllers"
 	"github.com/hello/core"
 	"github.com/hello/validators"
 )
 
 func registerEventsRoutes(events *gin.RouterGroup) {
-	events.GET("/", core.ValidateRequest(&validators.GetEventsRequestQuery{}), func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{
-			"message": "events list!",
-			"success": "true",
-		})
-	})
+	events.GET("/", core.ValidateRequestQuery(validators.GetEventsRequestQuery()), controllers.GetEvents)
 }
 func registerUserRoutes(user *gin.RouterGroup) {
 	user.POST("/login", func(context *gin.Context) {

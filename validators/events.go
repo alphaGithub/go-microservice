@@ -1,6 +1,7 @@
 package validators
 
-type GetEventsRequestQuery struct {
-	PageNo   int `json:"page_no" binding:"required"`
-	PageSize int `json:"page_size" binding:"required"`
+import "github.com/hello/validators/typings"
+
+func GetEventsRequestQuery() *typings.GetEventsRequestQueryType {
+	return &typings.GetEventsRequestQueryType{PageNo: 1, PageSize: 10}
 }
