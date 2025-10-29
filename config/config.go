@@ -21,8 +21,9 @@ func LoadConfig() {
 		panic(err)
 	}
 
-	errParsing := json.Unmarshal(fileContent, &Config)
-	if errParsing != nil {
-		log.Fatal("[err] error in config parsing", errParsing)
+	err = json.Unmarshal(fileContent, &Config)
+	if err != nil {
+		log.Fatal("[err] error in config parsing", err)
+		panic(err)
 	}
 }
