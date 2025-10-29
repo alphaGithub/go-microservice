@@ -7,37 +7,37 @@ import (
 )
 
 func ValidateRequestQuery(reqStruct any) gin.HandlerFunc {
-	return func(context *gin.Context) {
-		err := context.ShouldBindQuery(reqStruct)
+	return func(httpContext *gin.Context) {
+		err := httpContext.ShouldBindQuery(reqStruct)
 		if err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
+			httpContext.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
 			return
 		}
-		context.Set("reqQuery", reqStruct)
-		context.Next()
+		httpContext.Set("reqQuery", reqStruct)
+		httpContext.Next()
 	}
 }
 
 func ValidateRequestBody(reqStruct any) gin.HandlerFunc {
-	return func(context *gin.Context) {
-		err := context.ShouldBindJSON(reqStruct)
+	return func(httpContext *gin.Context) {
+		err := httpContext.ShouldBindJSON(reqStruct)
 		if err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
+			httpContext.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
 			return
 		}
-		context.Set("reqBody", reqStruct)
-		context.Next()
+		httpContext.Set("reqBody", reqStruct)
+		httpContext.Next()
 	}
 }
 
 func ValidateRequestParams(reqStruct any) gin.HandlerFunc {
-	return func(context *gin.Context) {
-		err := context.ShouldBindUri(reqStruct)
+	return func(httpContext *gin.Context) {
+		err := httpContext.ShouldBindUri(reqStruct)
 		if err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
+			httpContext.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
 			return
 		}
-		context.Set("reqParams", reqStruct)
-		context.Next()
+		httpContext.Set("reqParams", reqStruct)
+		httpContext.Next()
 	}
 }

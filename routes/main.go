@@ -11,14 +11,14 @@ import (
 
 func registerEventsRoutes(events *gin.RouterGroup) {
 	events.GET("/", core.ValidateRequestQuery(validators.GetEventsRequestQuery()), controllers.GetEvents)
-	events.GET("/:id", controllers.GetEvents)
+	events.GET("/:id", controllers.CreateEvent)
 	events.POST("/", controllers.GetEvents)
 	events.PUT("/:id", controllers.GetEvents)
 	events.DELETE("/:id", controllers.GetEvents)
 }
 func registerUserRoutes(user *gin.RouterGroup) {
-	user.POST("/login", func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{
+	user.POST("/login", func(httpContext *gin.Context) {
+		httpContext.JSON(http.StatusOK, gin.H{
 			"message": "login!",
 			"success": "true",
 		})
@@ -26,8 +26,8 @@ func registerUserRoutes(user *gin.RouterGroup) {
 }
 
 func RegisterRoutes(server *gin.Engine) {
-	server.GET("/health", func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{
+	server.GET("/health", func(httpContext *gin.Context) {
+		httpContext.JSON(http.StatusOK, gin.H{
 			"success": "true",
 			"message": "ok.",
 		})

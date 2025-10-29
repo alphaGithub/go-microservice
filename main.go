@@ -5,14 +5,25 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/hello/config"
+	"github.com/hello/databases"
 	"github.com/hello/routes"
 )
 
-func main() {
+func initServer() {
 	config.LoadConfig()
-	fmt.Println("config ->", config.Config, config.Config.Port)
+	databases.InitDb()
+}
+
+func main() {
+	initServer()
+
 	server := gin.Default()
+
+	// register routes
 	routes.RegisterRoutes(server)
-	server.Run(fmt.Sprintf(":%d", config.Config.Port))
-	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>", config.Config.Port)
+	err := server.Run(fmt.Sprintf(":%d", config.Config.Port))
+	if err != nil {
+		fmt.Println("❌ server startup failed >>>>>", err)
+	}
+	fmt.Println("✅ server started at port >>>>>", config.Config.Port)
 }

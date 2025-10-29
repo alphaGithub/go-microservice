@@ -7,9 +7,19 @@ import (
 	"github.com/hello/utils"
 )
 
+type HelloMongoConfigType struct {
+	DbName        string `json:"db_name"`
+	Type          string `json:"type"`
+	ConnectionURL string `json:"connection_url"`
+}
+type databaseConfigType struct {
+	Hello HelloMongoConfigType `json:"hello"`
+}
+
 type configType struct {
-	Service string `json:"service"`
-	Port    uint   `json:"port"`
+	Service   string             `json:"service"`
+	Port      uint               `json:"port"`
+	Databases databaseConfigType `json:"databases"`
 }
 
 var Config configType
