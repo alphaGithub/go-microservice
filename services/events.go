@@ -20,5 +20,6 @@ func GetEvents(pageNo int, pageSize int) ([]models.Events, error) {
 }
 
 func CreateEvent(payload *typings.CreateEventPayloadType) {
+	fmt.Println(payload)
 
 }
