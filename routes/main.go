@@ -11,8 +11,8 @@ import (
 
 func registerEventsRoutes(events *gin.RouterGroup) {
 	events.GET("/", core.ValidateRequestQuery(validators.GetEventsRequestQuery()), controllers.GetEvents)
-	events.GET("/:id", controllers.CreateEvent)
-	events.POST("/", controllers.GetEvents)
+	events.GET("/:id", core.ValidateRequestParams(validators.GetEventByIdRequestParams()), controllers.CreateEvent)
+	events.POST("/", core.ValidateRequestBody(validators.CreateEventRequestBody()), controllers.CreateEvent)
 	events.PUT("/:id", controllers.GetEvents)
 	events.DELETE("/:id", controllers.GetEvents)
 }

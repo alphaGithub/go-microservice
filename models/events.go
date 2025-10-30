@@ -2,10 +2,13 @@ package models
 
 import (
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Events struct {
-	ID          string                 `bson:"_id"  json:"id"`
+	ID          primitive.ObjectID     `bson:"_id,omitempty"  json:"id"`
+	ShortId     string                 `bson:"short_id" json:"short_id"`
 	Name        string                 `bson:"name" json:"name"`
 	Payload     map[string]interface{} `bson:"payload" json:"payload"`
 	Description string                 `bson:"description" json:"description"`

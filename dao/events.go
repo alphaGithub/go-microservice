@@ -10,9 +10,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetEventById(id string) {
-	e := models.Events{}
-	fmt.Print(e)
+func GetEventById(id string) (models.Events, error) {
+	collection := databases.MongoCollection["events"]
+	var event models.Events
+	filter := bson.M{"short_id": id}
+	result := collection.FindOne(context.Background(), filter)
+	if err := result.Decode(&event); err != nil {
+		return event, err
+	}
+	return event, nil
 }
 
 func GetEvents(limit int, offset int) ([]models.Events, error) {
@@ -35,4 +41,13 @@ func GetEvents(limit int, offset int) ([]models.Events, error) {
 	fmt.Println(result)
 	defer cursor.Close(context.Background())
 	return result, nil
+}
+
+func CreateEvents(event *models.Events) (interface{}, error) {
+	collection := databases.MongoCollection["events"]
+	result, err := collection.InsertOne(context.Background(), event)
+	if err != nil {
+		return nil, err
+	}
+	return result.InsertedID, err
 }

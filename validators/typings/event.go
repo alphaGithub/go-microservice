@@ -10,3 +10,7 @@ type CreateEventRequestBodyType struct {
 	Description string                 `bindings:"required" json:"description"`
 	Payload     map[string]interface{} `bindings:"required" json:"payload"`
 }
+
+type GetEventByIdRequestParamsType struct {
+	Id string `bindings:"required" json:"name"`
+}
