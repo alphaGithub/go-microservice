@@ -12,5 +12,5 @@ type CreateEventRequestBodyType struct {
 }
 
 type GetEventByIdRequestParamsType struct {
-	Id string `bindings:"required" json:"name"`
+	Id string `bindings:"required" uri:"id"`
 }
