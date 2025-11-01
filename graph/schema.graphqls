@@ -1,24 +1,25 @@
-type Event{
-    _id: ID!
-    short_id: String!
-    name: String 
-    description: String
-    payload: String
-    created_at: Date 
-    updated_at: Date 
+scalar Date
+
+type Event {
+  _id: ID!
+  short_id: String!
+  name: String
+  description: String
+  payload: String
+  created_at: Date
+  updated_at: Date
 }
 
-
-input CreateEventInput{
-    name: String!
-    description: String!
+input CreateEventInput {
+  name: String!
+  description: String!
 }
 
 type Query {
-    getEvents: [Event]!
-    getEventById(id:ID!)
+  getEvents: [Event!]!
+  getEventById(id: ID!): Event
 }
 
-type Mutation{
-    createEvent(input: CreateEventInput): Event
+type Mutation {
+  createEvent(input: CreateEventInput!): Event!
 }

@@ -3,9 +3,13 @@ package main
 import (
 	"fmt"
 
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
 	"github.com/hello/config"
 	"github.com/hello/databases"
+	"github.com/hello/graph"
+
 	"github.com/hello/routes"
 )
 
@@ -18,6 +22,16 @@ func main() {
 	initServer()
 
 	server := gin.Default()
+
+	gServ := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+
+	// GraphQL Routes
+	server.POST("/query", func(c *gin.Context) {
+		gServ.ServeHTTP(c.Writer, c.Request)
+	})
+	server.GET("/", func(c *gin.Context) {
+		playground.Handler("GraphQL Playground", "/query").ServeHTTP(c.Writer, c.Request)
+	})
 
 	// register routes
 	routes.RegisterRoutes(server)
