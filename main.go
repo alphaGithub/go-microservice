@@ -29,7 +29,7 @@ func main() {
 	server.POST("/query", func(c *gin.Context) {
 		gServ.ServeHTTP(c.Writer, c.Request)
 	})
-	server.GET("/", func(c *gin.Context) {
+	server.GET("/playground", func(c *gin.Context) {
 		playground.Handler("GraphQL Playground", "/query").ServeHTTP(c.Writer, c.Request)
 	})
 
