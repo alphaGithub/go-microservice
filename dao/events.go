@@ -10,9 +10,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetEventById(id string) (models.Events, error) {
-	collection := databases.MongoCollection["events"]
-	var event models.Events
+func GetEventById(id string) (models.Event, error) {
+	collection := databases.MongoCollection["Event"]
+	var event models.Event
 	filter := bson.M{"short_id": id}
 	result := collection.FindOne(context.Background(), filter)
 	if err := result.Decode(&event); err != nil {
@@ -21,30 +21,32 @@ func GetEventById(id string) (models.Events, error) {
 	return event, nil
 }
 
-func GetEvents(limit int, offset int) ([]models.Events, error) {
+func GetEvents(limit int, offset int) ([]models.Event, error) {
 	queryOptions := options.Find()
 	queryOptions.SetLimit(int64(limit))
 	queryOptions.SetSkip(int64(offset))
 	collection := databases.MongoCollection["events"]
+	fmt.Println("queryOptions:", queryOptions)
+	fmt.Println("collection:", collection)
 	cursor, err := collection.Find(context.Background(), bson.D{}, queryOptions)
 
 	if err != nil {
-		fmt.Println("[err] >>>>> [GetEvents|dao] >>>>> failed to fetch from database", err)
-		return []models.Events{}, err
+		fmt.Println("[err] >>>>> [GetEvent|dao] >>>>> failed to fetch from database", err)
+		return []models.Event{}, err
 	}
-	var result []models.Events
+	var result []models.Event
 	err = cursor.All(context.Background(), &result)
 	if err != nil {
-		fmt.Println("[err] >>>>> [GetEvents|dao] error with cursor", err)
-		return []models.Events{}, err
+		fmt.Println("[err] >>>>> [GetEvent|dao] error with cursor", err)
+		return []models.Event{}, err
 	}
 	fmt.Println(result)
 	defer cursor.Close(context.Background())
 	return result, nil
 }
 
-func CreateEvents(event *models.Events) (interface{}, error) {
-	collection := databases.MongoCollection["events"]
+func CreateEvent(event *models.Event) (interface{}, error) {
+	collection := databases.MongoCollection["Event"]
 	result, err := collection.InsertOne(context.Background(), event)
 	if err != nil {
 		return nil, err

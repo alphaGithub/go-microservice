@@ -7,16 +7,6 @@ type CreateEventInput struct {
 	Description string `json:"description"`
 }
 
-type Event struct {
-	ID          string  `json:"_id"`
-	ShortID     string  `json:"short_id"`
-	Name        *string `json:"name,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Payload     *string `json:"payload,omitempty"`
-	CreatedAt   *string `json:"created_at,omitempty"`
-	UpdatedAt   *string `json:"updated_at,omitempty"`
-}
-
 type Mutation struct {
 }
 

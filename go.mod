@@ -6,7 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.81
 	github.com/gin-gonic/gin v1.11.0
 	github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569
-	github.com/vektah/gqlparser/v2 v2.5.30
+	github.com/vektah/gqlparser/v2 v2.5.31
 	go.mongodb.org/mongo-driver v1.17.6
 )
 

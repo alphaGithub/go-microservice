@@ -8,23 +8,66 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hello/graph/model"
+	"github.com/hello/dao"
+	generatedModel "github.com/hello/graph/model"
+	"github.com/hello/models"
 )
 
+// ID is the resolver for the _id field.
+func (r *eventResolver) ID(ctx context.Context, obj *models.Event) (string, error) {
+	panic(fmt.Errorf("not implemented: ID - _id"))
+}
+
+// Payload is the resolver for the payload field.
+func (r *eventResolver) Payload(ctx context.Context, obj *models.Event) (*string, error) {
+	panic(fmt.Errorf("not implemented: Payload - payload"))
+}
+
+// CreatedAt is the resolver for the created_at field.
+func (r *eventResolver) CreatedAt(ctx context.Context, obj *models.Event) (*string, error) {
+	panic(fmt.Errorf("not implemented: CreatedAt - created_at"))
+}
+
+// UpdatedAt is the resolver for the updated_at field.
+func (r *eventResolver) UpdatedAt(ctx context.Context, obj *models.Event) (*string, error) {
+	panic(fmt.Errorf("not implemented: UpdatedAt - updated_at"))
+}
+
 // CreateEvent is the resolver for the createEvent field.
-func (r *mutationResolver) CreateEvent(ctx context.Context, input model.CreateEventInput) (*model.Event, error) {
+func (r *mutationResolver) CreateEvent(ctx context.Context, input generatedModel.CreateEventInput) (*models.Event, error) {
 	panic(fmt.Errorf("not implemented: CreateEvent - createEvent"))
 }
 
 // GetEvents is the resolver for the getEvents field.
-func (r *queryResolver) GetEvents(ctx context.Context) ([]*model.Event, error) {
-	panic(fmt.Errorf("not implemented: GetEvents - getEvents"))
+func (r *queryResolver) GetEvents(ctx context.Context) ([]*models.Event, error) {
+
+	events, err := dao.GetEvents(10, 0)
+	fmt.Println("events: ---------->", events)
+	if err != nil {
+		return nil, err
+	}
+	var res []*models.Event
+	for i := range events {
+		res = append(res, &events[i])
+	}
+	return res, err
+	// var result []*models.Event
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// for i := range events {
+	// 	result = append(result, &events[i])
+	// }
+	// return result, err
 }
 
 // GetEventByID is the resolver for the getEventById field.
-func (r *queryResolver) GetEventByID(ctx context.Context, id string) (*model.Event, error) {
+func (r *queryResolver) GetEventByID(ctx context.Context, id string) (*models.Event, error) {
 	panic(fmt.Errorf("not implemented: GetEventByID - getEventById"))
 }
+
+// Event returns EventResolver implementation.
+func (r *Resolver) Event() EventResolver { return &eventResolver{r} }
 
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
@@ -32,5 +75,6 @@ func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type eventResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

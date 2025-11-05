@@ -16,7 +16,7 @@ input CreateEventInput {
 }
 
 type Query {
-  getEvents: [Event!]!
+  getEvents: [Event]
   getEventById(id: ID!): Event
 }
 
