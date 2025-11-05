@@ -47,7 +47,12 @@ func (r *queryResolver) GetEvents(ctx context.Context) ([]*models.Event, error) 
 
 // GetEventByID is the resolver for the getEventById field.
 func (r *queryResolver) GetEventByID(ctx context.Context, id string) (*models.Event, error) {
-	panic(fmt.Errorf("not implemented: GetEventByID - getEventById"))
+	event, err := dao.GetEventById(id)
+	fmt.Print("event: ---------->", event)
+	if err != nil {
+		return nil, err
+	}
+	return &event, nil
 }
 
 // Event returns EventResolver implementation.

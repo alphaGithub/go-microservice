@@ -11,7 +11,7 @@ import (
 )
 
 func GetEventById(id string) (models.Event, error) {
-	collection := databases.MongoCollection["Event"]
+	collection := databases.MongoCollection["events"]
 	var event models.Event
 	filter := bson.M{"short_id": id}
 	result := collection.FindOne(context.Background(), filter)
@@ -46,7 +46,7 @@ func GetEvents(limit int, offset int) ([]models.Event, error) {
 }
 
 func CreateEvent(event *models.Event) (interface{}, error) {
-	collection := databases.MongoCollection["Event"]
+	collection := databases.MongoCollection["events"]
 	result, err := collection.InsertOne(context.Background(), event)
 	if err != nil {
 		return nil, err
