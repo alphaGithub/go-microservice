@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
@@ -70,11 +71,7 @@ type ComplexityRoot struct {
 }
 
 type EventResolver interface {
-	ID(ctx context.Context, obj *models.Event) (string, error)
-
 	Payload(ctx context.Context, obj *models.Event) (*string, error)
-	CreatedAt(ctx context.Context, obj *models.Event) (*string, error)
-	UpdatedAt(ctx context.Context, obj *models.Event) (*string, error)
 }
 type MutationResolver interface {
 	CreateEvent(ctx context.Context, input model.CreateEventInput) (*models.Event, error)
@@ -393,10 +390,10 @@ func (ec *executionContext) _Event__id(ctx context.Context, field graphql.Collec
 		field,
 		ec.fieldContext_Event__id,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Event().ID(ctx, obj)
+			return obj.ID, nil
 		},
 		nil,
-		ec.marshalNID2string,
+		ec.marshalNString2string,
 		true,
 		true,
 	)
@@ -406,10 +403,10 @@ func (ec *executionContext) fieldContext_Event__id(_ context.Context, field grap
 	fc = &graphql.FieldContext{
 		Object:     "Event",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -512,7 +509,7 @@ func (ec *executionContext) _Event_payload(ctx context.Context, field graphql.Co
 			return ec.resolvers.Event().Payload(ctx, obj)
 		},
 		nil,
-		ec.marshalOString2ᚖstring,
+		ec.marshalOJSON2ᚖstring,
 		true,
 		false,
 	)
@@ -525,7 +522,7 @@ func (ec *executionContext) fieldContext_Event_payload(_ context.Context, field 
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type JSON does not have child fields")
 		},
 	}
 	return fc, nil
@@ -538,10 +535,10 @@ func (ec *executionContext) _Event_created_at(ctx context.Context, field graphql
 		field,
 		ec.fieldContext_Event_created_at,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Event().CreatedAt(ctx, obj)
+			return obj.CreatedAt, nil
 		},
 		nil,
-		ec.marshalODate2ᚖstring,
+		ec.marshalOTime2timeᚐTime,
 		true,
 		false,
 	)
@@ -551,10 +548,10 @@ func (ec *executionContext) fieldContext_Event_created_at(_ context.Context, fie
 	fc = &graphql.FieldContext{
 		Object:     "Event",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Date does not have child fields")
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -567,10 +564,10 @@ func (ec *executionContext) _Event_updated_at(ctx context.Context, field graphql
 		field,
 		ec.fieldContext_Event_updated_at,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Event().UpdatedAt(ctx, obj)
+			return obj.UpdatedAt, nil
 		},
 		nil,
-		ec.marshalODate2ᚖstring,
+		ec.marshalOTime2timeᚐTime,
 		true,
 		false,
 	)
@@ -580,10 +577,10 @@ func (ec *executionContext) fieldContext_Event_updated_at(_ context.Context, fie
 	fc = &graphql.FieldContext{
 		Object:     "Event",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Date does not have child fields")
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2356,41 +2353,10 @@ func (ec *executionContext) _Event(ctx context.Context, sel ast.SelectionSet, ob
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Event")
 		case "_id":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Event__id(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
+			out.Values[i] = ec._Event__id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "short_id":
 			out.Values[i] = ec._Event_short_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -2434,71 +2400,9 @@ func (ec *executionContext) _Event(ctx context.Context, sel ast.SelectionSet, ob
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "created_at":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Event_created_at(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = ec._Event_created_at(ctx, field, obj)
 		case "updated_at":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Event_updated_at(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = ec._Event_updated_at(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -3344,24 +3248,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) unmarshalODate2ᚖstring(ctx context.Context, v any) (*string, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalString(v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalODate2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	_ = sel
-	_ = ctx
-	res := graphql.MarshalString(*v)
-	return res
-}
-
 func (ec *executionContext) marshalOEvent2ᚕᚖgithubᚗcomᚋhelloᚋmodelsᚐEvent(ctx context.Context, sel ast.SelectionSet, v []*models.Event) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -3410,6 +3296,24 @@ func (ec *executionContext) marshalOEvent2ᚖgithubᚗcomᚋhelloᚋmodelsᚐEve
 	return ec._Event(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalOJSON2ᚖstring(ctx context.Context, v any) (*string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalString(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOJSON2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	_ = sel
+	_ = ctx
+	res := graphql.MarshalString(*v)
+	return res
+}
+
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v any) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3437,6 +3341,18 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	_ = sel
 	_ = ctx
 	res := graphql.MarshalString(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOTime2timeᚐTime(ctx context.Context, v any) (time.Time, error) {
+	res, err := graphql.UnmarshalTime(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOTime2timeᚐTime(ctx context.Context, sel ast.SelectionSet, v time.Time) graphql.Marshaler {
+	_ = sel
+	_ = ctx
+	res := graphql.MarshalTime(v)
 	return res
 }
 

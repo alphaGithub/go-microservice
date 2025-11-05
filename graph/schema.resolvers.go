@@ -13,24 +13,9 @@ import (
 	"github.com/hello/models"
 )
 
-// ID is the resolver for the _id field.
-func (r *eventResolver) ID(ctx context.Context, obj *models.Event) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - _id"))
-}
-
 // Payload is the resolver for the payload field.
 func (r *eventResolver) Payload(ctx context.Context, obj *models.Event) (*string, error) {
 	panic(fmt.Errorf("not implemented: Payload - payload"))
-}
-
-// CreatedAt is the resolver for the created_at field.
-func (r *eventResolver) CreatedAt(ctx context.Context, obj *models.Event) (*string, error) {
-	panic(fmt.Errorf("not implemented: CreatedAt - created_at"))
-}
-
-// UpdatedAt is the resolver for the updated_at field.
-func (r *eventResolver) UpdatedAt(ctx context.Context, obj *models.Event) (*string, error) {
-	panic(fmt.Errorf("not implemented: UpdatedAt - updated_at"))
 }
 
 // CreateEvent is the resolver for the createEvent field.
@@ -40,7 +25,6 @@ func (r *mutationResolver) CreateEvent(ctx context.Context, input generatedModel
 
 // GetEvents is the resolver for the getEvents field.
 func (r *queryResolver) GetEvents(ctx context.Context) ([]*models.Event, error) {
-
 	events, err := dao.GetEvents(10, 0)
 	fmt.Println("events: ---------->", events)
 	if err != nil {

@@ -1,13 +1,15 @@
-scalar Date
+
+scalar Time
+scalar JSON
 
 type Event {
-  _id: ID!
+  _id: String!
   short_id: String!
   name: String
   description: String
-  payload: String
-  created_at: Date
-  updated_at: Date
+  payload: JSON
+  created_at: Time
+  updated_at: Time
 }
 
 input CreateEventInput {
