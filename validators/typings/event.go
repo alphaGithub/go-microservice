@@ -8,7 +8,7 @@ type GetEventsRequestQueryType struct {
 type CreateEventRequestBodyType struct {
 	Name        string                 `bindings:"required" json:"name"`
 	Description string                 `bindings:"required" json:"description"`
-	Payload     map[string]interface{} `bindings:"required" json:"payload"`
+	MetaData    map[string]interface{} `bindings:"required" json:"meta_data"`
 }
 
 type GetEventByIdRequestParamsType struct {

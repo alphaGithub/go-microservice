@@ -8,7 +8,7 @@ type Event {
   short_id: String!
   name: String
   description: String
-  payload: JSON
+  meta_data: JSON
   created_at: Time
   updated_at: Time
 }

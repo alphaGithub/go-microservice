@@ -34,7 +34,7 @@ func CreateEvent(httpContext *gin.Context) {
 	payload.Name = body.Name
 	payload.Description = body.Description
 	payload.ShortId = ShortID
-	payload.Payload = body.Payload
+	payload.MetaData = body.MetaData
 	payload.CreatedAt = time.Now()
 	payload.UpdatedAt = time.Now()
 	result, err := services.CreateEvent(&payload)

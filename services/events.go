@@ -28,7 +28,7 @@ func GetEventById(id string) (models.Event, error) {
 func CreateEvent(payload *typings.CreateEventPayloadType) (interface{}, error) {
 	var event models.Event
 	event.ShortId = payload.ShortId
-	event.Payload = payload.Payload
+	event.MetaData = payload.MetaData
 	event.Name = payload.Name
 	event.Description = payload.Description
 	event.CreatedAt = payload.CreatedAt
