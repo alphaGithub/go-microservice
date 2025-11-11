@@ -13,11 +13,6 @@ import (
 	"github.com/hello/models"
 )
 
-// Payload is the resolver for the payload field.
-func (r *eventResolver) Payload(ctx context.Context, obj *models.Event) (*string, error) {
-	panic(fmt.Errorf("not implemented: Payload - payload"))
-}
-
 // CreateEvent is the resolver for the createEvent field.
 func (r *mutationResolver) CreateEvent(ctx context.Context, input generatedModel.CreateEventInput) (*models.Event, error) {
 	panic(fmt.Errorf("not implemented: CreateEvent - createEvent"))
@@ -35,14 +30,6 @@ func (r *queryResolver) GetEvents(ctx context.Context) ([]*models.Event, error) 
 		res = append(res, &events[i])
 	}
 	return res, err
-	// var result []*models.Event
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// for i := range events {
-	// 	result = append(result, &events[i])
-	// }
-	// return result, err
 }
 
 // GetEventByID is the resolver for the getEventById field.
@@ -55,15 +42,11 @@ func (r *queryResolver) GetEventByID(ctx context.Context, id string) (*models.Ev
 	return &event, nil
 }
 
-// Event returns EventResolver implementation.
-func (r *Resolver) Event() EventResolver { return &eventResolver{r} }
-
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-type eventResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
