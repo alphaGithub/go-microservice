@@ -1,5 +1,12 @@
+syntax = "proto3";
+
+package events;
+
+option go_package = "github.com/hello/grpc/proto";
+
+
 service Events{
-  rpc GetEvents(InputGetEvents) return (Event) {}
+  rpc GetEvents (InputGetEvents) returns (Event) {};
 }
 
 

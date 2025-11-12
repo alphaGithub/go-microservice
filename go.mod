@@ -8,6 +8,8 @@ require (
 	github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569
 	github.com/vektah/gqlparser/v2 v2.5.31
 	go.mongodb.org/mongo-driver v1.17.6
+	google.golang.org/grpc v1.76.0
+	google.golang.org/protobuf v1.36.10
 )
 
 require (
@@ -59,6 +61,6 @@ require (
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250804133106-a7a43d27e69b // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
