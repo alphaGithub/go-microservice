@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hello/config"
 	grpcPb "github.com/hello/grpc/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
-
-var serverAddr = flag.String("addr", "localhost:5811", "[msg] >>>> The server address in the format of host:port")
 
 func printEvent(client grpcPb.EventsClient, input *grpcPb.InputGetEvents) {
 	fmt.Println("[msg] >>>> EVENT InputGetEvents", input)
@@ -26,6 +25,10 @@ func printEvent(client grpcPb.EventsClient, input *grpcPb.InputGetEvents) {
 }
 func main() {
 	var opts []grpc.DialOption
+	config.LoadConfig()
+	var grpcHostAddress = fmt.Sprintf(":%d", config.Config.GrpcPort)
+	fmt.Println("host address ->", grpcHostAddress, config.Config)
+	var serverAddr = flag.String("addr", grpcHostAddress, "[msg] >>>> The server address in the format of host:port")
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	conn, err := grpc.NewClient(*serverAddr, opts...)
 	if err != nil {

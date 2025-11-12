@@ -19,6 +19,7 @@ type databaseConfigType struct {
 type configType struct {
 	Service   string             `json:"service"`
 	Port      uint               `json:"port"`
+	GrpcPort  uint               `json:"grpc_port"`
 	Databases databaseConfigType `json:"databases"`
 }
 
