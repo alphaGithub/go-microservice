@@ -9,6 +9,7 @@ import (
 	"github.com/hello/config"
 	"github.com/hello/databases"
 	"github.com/hello/graph"
+	"github.com/hello/middlewares"
 
 	"github.com/hello/routes"
 )
@@ -24,6 +25,9 @@ func main() {
 	server := gin.Default()
 
 	gServ := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+
+	// websocket
+	server.GET("/socket", middlewares.SocketHandler)
 
 	// GraphQL Routes
 	server.POST("/query", func(c *gin.Context) {

@@ -5,6 +5,7 @@ go 1.24.2
 require (
 	github.com/99designs/gqlgen v0.17.81
 	github.com/gin-gonic/gin v1.11.0
+	github.com/gorilla/websocket v1.5.3
 	github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569
 	github.com/vektah/gqlparser/v2 v2.5.31
 	go.mongodb.org/mongo-driver v1.17.6
@@ -29,7 +30,6 @@ require (
 	github.com/goccy/go-yaml v1.18.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect

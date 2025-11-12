@@ -29,3 +29,6 @@
     - which protoc-gen-go-grpc
   - generate pb from .proto files
     - protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative grpc/proto/events.proto
+
+# Socket
+  - go get github.com/gorilla/websocket
