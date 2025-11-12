@@ -1,0 +1,15 @@
+service Events{
+  rpc GetEvents(InputGetEvents) return (Event) {}
+}
+
+
+
+message InputGetEvents{
+  int32 pageNo      =1;
+  int32 pageSize    =2;
+}
+
+message Event{
+  string name         = 1;
+  string description  = 2;
+}
